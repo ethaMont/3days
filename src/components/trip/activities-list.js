@@ -1,21 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import { ActivityItem } from './activity-item';
 
-
 export class ActivitiesList extends Component {
   static propTypes = {
     deleteActivity: PropTypes.func.isRequired,
     activities: PropTypes.array.isRequired,
-    updateActivity: PropTypes.func.isRequired
+    updateActivity: PropTypes.func.isRequired,
+    createActivityMedia: PropTypes.func.isRequired,
+    deleteActivityMedia: PropTypes.func.isRequired,
   };
 
   renderTripActivities() {
     const {
       deleteActivity,
       activities,
+      createActivityMedia,
+      deleteActivityMedia,
       updateActivity,
     } = this.props;
-   
+
     return activities
       .map((activity, index) => {
         return (
@@ -23,6 +26,8 @@ export class ActivitiesList extends Component {
             deleteActivity={deleteActivity}
             key={index}
             activity={activity}
+            createActivityMedia={createActivityMedia}
+            deleteActivityMedia={deleteActivityMedia}
             updateActivity={updateActivity}/>
         );
       });

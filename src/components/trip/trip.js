@@ -17,6 +17,8 @@ export class Trip extends Component {
     createActivity: PropTypes.func.isRequired,
     deleteActivity: PropTypes.func.isRequired,
     updateActivity: PropTypes.func.isRequired,
+    createActivityMedia: PropTypes.func.isRequired,
+    deleteActivityMedia: PropTypes.func.isRequired,
     registerListeners: PropTypes.func.isRequired,
     activities: PropTypes.array.isRequired,
 //     location: PropTypes.object.isRequired,
@@ -35,11 +37,13 @@ export class Trip extends Component {
       createActivity,
       deleteActivity,
       updateActivity,
+      createActivityMedia,
+      deleteActivityMedia,
       activities,
     } = this.props
-    
+
     const tripId = this.props.routeParams.tripId
-    
+
     return (
       <div className="g-row">
         <div className="g-col">
@@ -50,6 +54,8 @@ export class Trip extends Component {
           <ActivitiesList
             deleteActivity={(key) => {deleteActivity(tripId, key)}}
             updateActivity={updateActivity}
+            createActivityMedia={(activityId, data) => {createActivityMedia(tripId, activityId, data)}}
+            deleteActivityMedia={deleteActivityMedia}
             activities={activities} />
         </div>
         <div className="g-col">

@@ -1,13 +1,16 @@
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-
+import { ActivityItemFilePicker } from './activity-item-file-picker';
+import { ActivityItemMedias } from './activity-item-medias';
 
 export class ActivityItem extends Component {
   static propTypes = {
     deleteActivity: PropTypes.func.isRequired,
     activity: PropTypes.object.isRequired,
-    updateActivity: PropTypes.func.isRequired
+    updateActivity: PropTypes.func.isRequired,
+    createActivityMedia: PropTypes.func.isRequired,
+    deleteActivityMedia: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
@@ -78,10 +81,19 @@ export class ActivityItem extends Component {
     );
   }
 
+  renderImage(media, index) {
+    console.debug(media)
+  }
+
   render() {
     const { editing } = this.state;
-    const { activity, deleteActivity } = this.props;
-    
+    const {
+      activity,
+      deleteActivity,
+      createActivityMedia,
+      deleteActivityMedia,
+    } = this.props;
+
     return (
       <div className={classNames('trip-item', {'trip-item--editing': editing})} tabIndex="0">
         <div className="cell">
@@ -124,6 +136,14 @@ export class ActivityItem extends Component {
             </svg>
           </button>
         </div>
+
+        <ActivityItemMedias
+          medias={activity.medias} />
+
+        <ActivityItemFilePicker
+          createActivityMedia={(data) => {createActivityMedia(activity.key, data)}}
+          deleteActivityMedia={deleteActivityMedia} />
+
       </div>
     );
   }

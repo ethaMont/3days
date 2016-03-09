@@ -4,7 +4,11 @@ import {
   DELETE_ACTIVITY_ERROR,
   DELETE_ACTIVITY_SUCCESS,
   UPDATE_ACTIVITY_ERROR,
-  UPDATE_ACTIVITY_SUCCESS
+  UPDATE_ACTIVITY_SUCCESS,
+  CREATE_ACTIVITY_MEDIA_ERROR,
+  CREATE_ACTIVITY_MEDIA_SUCCESS,
+  DELETE_ACTIVITY_MEDIA_ERROR,
+  DELETE_ACTIVITY_MEDIA_SUCCESS,
 } from './action-types';
 
 
@@ -25,6 +29,23 @@ export function createActivity(tripId, obj) {
   };
 }
 
+export function createActivityMedia(tripId, activityId, obj) {
+  return (dispatch, getState) => {
+    const { auth, firebase } = getState();
+
+    firebase.child(`trips/${tripId}/activities/${activityId}/medias`)
+      .push(obj, error => {
+        if (error) {
+          console.error('ERROR @ createActivityMedia :', error); // eslint-disable-line no-console
+          dispatch({
+            type: CREATE_ACTIVITY_MEDIA_ERROR,
+            payload: error
+          });
+        }
+      });
+  };
+}
+
 
 export function deleteActivity(tripId, activityId) {
   return (dispatch, getState) => {
@@ -36,6 +57,23 @@ export function deleteActivity(tripId, activityId) {
           console.error('ERROR @ deleteActivity :', error); // eslint-disable-line no-console
           dispatch({
             type: DELETE_ACTIVITY_ERROR,
+            payload: error
+          });
+        }
+      });
+  };
+}
+
+export function deleteActivityMedia(tripId, activityId, mediaId) {
+  return (dispatch, getState) => {
+    const { auth, firebase } = getState();
+
+    firebase.child(`trips/${tripId}/activities/${activityId}/medias/${mediaId}`)
+      .remove(error => {
+        if (error) {
+          console.error('ERROR @ deleteActivityMedia :', error); // eslint-disable-line no-console
+          dispatch({
+            type: DELETE_ACTIVITY_MEDIA_ERROR,
             payload: error
           });
         }
