@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { TRIPS_PATH } from 'config';
+import { TRIPS_PATH } from 'config/config';
 
 
 export class TaskFilters extends Component {

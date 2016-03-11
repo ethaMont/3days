@@ -1,8 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { POST_SIGN_IN_PATH, POST_SIGN_OUT_PATH } from 'config';
+import { POST_SIGN_IN_PATH, POST_SIGN_OUT_PATH } from 'config/config';
 import { authActions } from 'modules/auth';
+import { browserHistory } from 'react-router'
 
+import AppBar from 'material-ui/lib/app-bar';
+import IconButton from 'material-ui/lib/icon-button';
+import FontIcon from 'material-ui/lib/font-icon';
 
 export class App extends Component {
   static propTypes = {
@@ -30,7 +34,7 @@ export class App extends Component {
 
   signOut() {
     this.props.signOut();
-    window.location.replace('/');
+    browserHistory.push('/');
   }
 
   render() {
@@ -38,18 +42,20 @@ export class App extends Component {
 
     return (
       <div>
-        <header className="header">
-          <div className="g-row">
-            <div className="g-col">
-              <h1 className="header__title">3 Days</h1>
-
-              <ul className="header__links">
-                {auth.authenticated ? <li><a className="header__link" onClick={this.signOut} href="javascript:">Sign out</a></li> : null}
-                <li><a className="header__link header__link--github" href="https://github.com/r-park/todo-react-redux"></a></li>
-              </ul>
-            </div>
-          </div>
-        </header>
+        <AppBar
+          title="3 Days"
+          onTitleTouchTap={() => { console.log(this) } }
+          iconElementLeft={(
+            <IconButton
+              onTouchTap={() => { browserHistory.push('/trips') } }>
+              <FontIcon className="material-icons" style={{ color: 'white' }}>card_travel</FontIcon>
+            </IconButton>) }
+          iconElementRight={auth.authenticated ? (
+            <IconButton
+              onTouchTap={() => { this.signOut() } }>
+              <FontIcon className="material-icons" style={{ color: 'white' }}>exit_to_app</FontIcon>
+            </IconButton>) : null}
+          />
 
         <main className="main">{children}</main>
       </div>

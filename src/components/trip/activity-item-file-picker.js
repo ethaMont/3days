@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { FILEPICKER_API_KEY } from 'config';
 import filepicker from 'filepicker-js';
+import FontIcon from 'material-ui/lib/font-icon';
 
 export class ActivityItemFilePicker extends Component {
   static propTypes = {
@@ -8,13 +8,11 @@ export class ActivityItemFilePicker extends Component {
     deleteActivityMedia: PropTypes.func.isRequired,
   };
 
-  componentWillMount() {
-    //TODO to trigger only once
-    filepicker.setKey(FILEPICKER_API_KEY);
-  }
-
   launchFilePicker() {
     filepicker.pickMultiple(
+      {
+        // services: ['COMPUTER', 'FACEBOOK', 'BOX', 'IMGUR', 'CLOUDDRIVE'],
+      },
       (blobs) => {
         for (let media of blobs){
           this.props.createActivityMedia(media);
@@ -27,8 +25,21 @@ export class ActivityItemFilePicker extends Component {
   }
 
   render() {
+    const iconStyles = {
+      color: 'white',
+      fontSize: '37px',
+      padding: '17px',
+      cursor: 'pointer',
+    };
+
     return (
-      <span onClick={() => { this.launchFilePicker() } }>Add media</span>
+      <li onTouchTap={() => { this.launchFilePicker() } }>
+        <FontIcon
+          style={iconStyles}
+          className="material-icons">
+        library_add
+        </FontIcon>
+      </li>
     );
   }
 }

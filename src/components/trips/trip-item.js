@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import slug from 'limax';
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { TRIP_PATH } from 'config';
+import { TRIP_PATH } from 'config/config';
 
 
 export class TripItem extends Component {
@@ -66,7 +66,7 @@ export class TripItem extends Component {
 
   renderTitle(trip) {
     const slugUrl = slug(trip.title);
-    
+
     return (
       <div
         onclick=""

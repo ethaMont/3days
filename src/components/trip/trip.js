@@ -45,22 +45,21 @@ export class Trip extends Component {
     const tripId = this.props.routeParams.tripId
 
     return (
-      <div className="g-row">
-        <div className="g-col">
-          <ActivityForm createActivity={(data) => {createActivity(tripId, data)}}/>
-        </div>
+      <div>
+        <ActivityForm createActivity={(data) => {createActivity(tripId, data)}}/>
 
-        <div className="g-col">
+        <div className="g-row">
+
           <ActivitiesList
             deleteActivity={(key) => {deleteActivity(tripId, key)}}
             updateActivity={updateActivity}
             createActivityMedia={(activityId, data) => {createActivityMedia(tripId, activityId, data)}}
             deleteActivityMedia={deleteActivityMedia}
             activities={activities} />
-        </div>
-        <div className="g-col">
+
           <ActivitiesMap
             activities={activities} />
+
         </div>
       </div>
     );

@@ -34,8 +34,16 @@ export class ActivitiesList extends Component {
   }
 
   render() {
+    const styleList={
+      width: '50%',
+      height: 'calc(100% - 80px)',
+      position: 'absolute',
+      overflowY: 'auto',
+    }
+
     return (
-      <div className="task-list">
+      <div style={styleList}
+        className="activities-list">
         {this.renderTripActivities()}
       </div>
     );

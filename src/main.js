@@ -6,11 +6,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { syncReduxAndRouter } from 'redux-simple-router';
 
-import { FIREBASE_URL } from 'config';
+import { FIREBASE_URL, FILEPICKER_API_KEY } from 'config/config';
 import { authActions, authRouteResolver } from 'modules/auth';
 import { Root } from 'components/root';
 import createStore from './store';
 
+import filepicker from 'filepicker-js';
+
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 const history = createBrowserHistory();
 
@@ -21,6 +24,10 @@ const store = createStore({
 store.dispatch(authActions.initAuth());
 
 syncReduxAndRouter(history, store);
+
+injectTapEventPlugin();
+
+filepicker.setKey(FILEPICKER_API_KEY);
 
 ReactDOM.render((
   <Root history={history} onEnter={authRouteResolver(store.getState)} store={store}/>

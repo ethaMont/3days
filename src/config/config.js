@@ -7,3 +7,7 @@ export const TRIPS_PATH = '/trips';
 export const TRIP_PATH = TRIPS_PATH + '/';
 export const POST_SIGN_IN_PATH = TRIPS_PATH;
 export const POST_SIGN_OUT_PATH = SIGN_IN_PATH;
+
+// Images sizes
+export const ACTIVITY_ITEM_MEDIA_LIST_MAX_HEIGHT = 400;
+export const ACTIVITY_ITEM_MEDIA_LIST_MAX_WIDTH = 600;
