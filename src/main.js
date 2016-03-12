@@ -1,34 +1,40 @@
-import 'styles/styles.scss';
-
 import Firebase from 'firebase';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { syncReduxAndRouter } from 'redux-simple-router';
+import { browserHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
 
-import { FIREBASE_URL, FILEPICKER_API_KEY } from 'config/config';
-import { authActions, authRouteResolver } from 'modules/auth';
+import 'styles/styles.scss';
 import { Root } from 'components/root';
-import createStore from './store';
+import {
+  authActions,
+  authRouteResolver,
+} from 'modules/auth';
+
+import {
+  FIREBASE_URL,
+  FILEPICKER_API_KEY,
+} from 'config/config';
+
+import configureStore from './store';
 
 import filepicker from 'filepicker-js';
-
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-const history = createBrowserHistory();
-
-const store = createStore({
+const store = configureStore({
   firebase: new Firebase(FIREBASE_URL)
 });
 
-store.dispatch(authActions.initAuth());
-
-syncReduxAndRouter(history, store);
+const history = syncHistoryWithStore(browserHistory, store);
 
 injectTapEventPlugin();
-
 filepicker.setKey(FILEPICKER_API_KEY);
 
+store.dispatch(authActions.initAuth());
+
 ReactDOM.render((
-  <Root history={history} onEnter={authRouteResolver(store.getState)} store={store}/>
+  <Root
+    history={history}
+    onEnter={authRouteResolver(store.getState)}
+    store={store} />
 ), document.querySelector('.app-root'));

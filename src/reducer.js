@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { routeReducer } from 'redux-simple-router';
+import { routerReducer } from 'react-router-redux';
 
 // Reducers
 import { authReducer } from 'modules/auth';
@@ -13,7 +13,7 @@ export default combineReducers({
   auth: authReducer,
   firebase: firebaseReducer,
   notification: notificationReducer,
-  routing: routeReducer,
+  routing: routerReducer,
   trips: tripsReducer,
   trip: tripReducer,
 });

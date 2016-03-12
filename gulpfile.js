@@ -159,7 +159,7 @@ gulp.task('test.watch', done => {
 //---------------------------
 gulp.task('dist', gulp.series(
   'lint',
-//   'test',
+  'test',
   'clean.target',
   'js',
   'headers'

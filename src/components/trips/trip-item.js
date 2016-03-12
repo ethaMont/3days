@@ -73,7 +73,7 @@ export class TripItem extends Component {
         className="trip-item__title"
         ref="titleText"
         tabIndex="0">
-            <Link to={`${TRIP_PATH}${slugUrl}/${trip.key}`}>{trip.title}</Link>
+            <Link to={{ pathname:`${TRIP_PATH}${slugUrl}/${trip.key}` }}>{trip.title}</Link>
         </div>
     );
   }

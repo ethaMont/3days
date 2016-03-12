@@ -14,8 +14,8 @@ export class TaskFilters extends Component {
 
     return (
       <ul className="task-filters">
-        <li><Link className={classNames({active: !filter})} to={TRIPS_PATH}>View All</Link></li>
-        <li><Link activeClassName="active" to={TRIPS_PATH} query={{filter: 'my_trips'}}>My trips</Link></li>
+        <li><Link className={classNames({active: !filter})} to={{ pathname:TRIPS_PATH }}>View All</Link></li>
+        <li><Link activeClassName="active" to={{ pathname:TRIPS_PATH, query:{filter: 'my_trips'} }}>My trips</Link></li>
       </ul>
     );
   }

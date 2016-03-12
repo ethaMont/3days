@@ -25,10 +25,10 @@ export class App extends Component {
     const { auth, history } = this.props;
 
     if (auth.authenticated && !nextProps.auth.authenticated) {
-      history.replaceState(null, POST_SIGN_OUT_PATH);
+      history.replace(POST_SIGN_OUT_PATH);
     }
     else if (!auth.authenticated && nextProps.auth.authenticated) {
-      history.replaceState(null, POST_SIGN_IN_PATH);
+      history.replace(POST_SIGN_IN_PATH);
     }
   }
 
@@ -44,7 +44,7 @@ export class App extends Component {
       <div>
         <AppBar
           title="3 Days"
-          onTitleTouchTap={() => { console.log(this) } }
+          onTitleTouchTap={() => { browserHistory.push('/trips') } }
           iconElementLeft={(
             <IconButton
               onTouchTap={() => { browserHistory.push('/trips') } }>
