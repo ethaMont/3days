@@ -34,17 +34,17 @@ export class ActivitiesList extends Component {
   }
 
   render() {
-    const styleList={
+    const styleList = {
       width: '50%',
-      height: 'calc(100% - 80px)',
-      position: 'absolute',
-      overflowY: 'auto',
+      paddingLeft: '3px',
+      boxSizing: 'border-box',
+      paddingTop: '128px',
     }
 
     return (
       <div style={styleList}
         className="activities-list">
-        {this.renderTripActivities()}
+        {this.renderTripActivities() }
       </div>
     );
   }

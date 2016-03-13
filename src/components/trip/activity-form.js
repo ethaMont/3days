@@ -5,7 +5,7 @@ import {
   ACTIVITY_ITEM_MEDIA_LIST_MAX_WIDTH,
 } from 'config/config';
 
-import Geosuggest from 'react-geosuggest';
+import TextField from 'material-ui/lib/text-field';
 
 export class ActivityForm extends Component {
   static propTypes = {
@@ -25,36 +25,44 @@ export class ActivityForm extends Component {
     );
   }
 
-  onSubmit(location) {
-    const service = new google.maps.places.PlacesService(document.createElement('div'));
-
-    service.getDetails(
-      {
-        placeId: location.gmaps.place_id,
-      }, (place, status) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          location.details = place;
-
-          if(location.details.photos){
-            location.default_photo = this.getDefaultPhoto(location.details.photos[0]);
-          }
-        }
-
-        delete location.gmaps.geometry;
-        delete location.details.geometry;
-        delete location.details.photos;
-        this.props.createActivity(location);
-      });
+  getGeometry(place) {
+    return {
+      lat: place.location.lat(),
+      lng: place.location.lng(),
+    }
   }
 
+  componentDidMount() {
+    const autoComplete = new google.maps.places.Autocomplete(
+      this.refs.add_activity.input,
+      {
+        // types : ['geocode', 'establishment', 'cities', 'regions'],
+      }
+    );
+
+    google.maps.event.addListener(autoComplete, 'place_changed', () => {
+      this.onSubmit(autoComplete.getPlace());
+    });
+  }
+
+  onSubmit(location) {
+    if (location.photos) {
+      location.default_photo = this.getDefaultPhoto(location.photos[0]);
+    }
+    if (location.geometry) {
+      location.geometry = this.getGeometry(location.geometry);
+    }
+
+    delete location.photos;
+    this.props.createActivity(location);
+  }
 
   render() {
     return (
       <div>
-        <Geosuggest
-          placeholder="Start typing!"
-          initialValue="Add a place"
-          onSuggestSelect={(location) => this.onSubmit(location) } />
+        <TextField
+          style={{ width: '504px' }}
+          ref="add_activity" />
       </div>
     );
   }

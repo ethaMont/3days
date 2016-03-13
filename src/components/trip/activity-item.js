@@ -157,6 +157,7 @@ export class ActivityItem extends Component {
 
   constructor(props) {
     super(props);
+    debugger
     this.state = {
       expanded: true,
     };
@@ -183,6 +184,7 @@ export class ActivityItem extends Component {
       editing,
       expanded,
     } = this.state;
+
     const {
       activity,
       deleteActivity,
@@ -206,12 +208,12 @@ export class ActivityItem extends Component {
           <CardHeader
             titleStyle={titleStyle}
             subtitleStyle={titleStyle}
-            title={activity.label}
-            subtitle={activity.gmaps.types.join(', ') }
-            avatar={activity.details.icon}
+            title={activity.name}
+            subtitle={activity.types.join(', ') }
+            avatar={activity.icon}
             actAsExpander={true}
             showExpandableButton={true}
-            textStyle={{width: 'calc(100% - 90px)'}}
+            textStyle={{ width: 'calc(100% - 90px)' }}
             />
 
           <ActivityItemMedias
@@ -220,6 +222,9 @@ export class ActivityItem extends Component {
             medias={activity.medias}
             expandable={expanded}
             defaultMedia={activity.default_photo} />
+
+          <CardTitle
+            subtitle={activity.adr_address.replace(/<(?:.|\n)*?>/gm, '')} />
 
           <CardText expandable={true}>
             <div onTouchTap={ () => { alert('Not plugged yet') } }>

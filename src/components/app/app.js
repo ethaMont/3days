@@ -1,12 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { POST_SIGN_IN_PATH, POST_SIGN_OUT_PATH } from 'config/config';
+import {
+  POST_SIGN_IN_PATH,
+  POST_SIGN_OUT_PATH,
+} from 'config/config';
 import { authActions } from 'modules/auth';
 import { browserHistory } from 'react-router'
 
-import AppBar from 'material-ui/lib/app-bar';
-import IconButton from 'material-ui/lib/icon-button';
-import FontIcon from 'material-ui/lib/font-icon';
+import BodyLayoutElement from '../layout/body-layout-element';
+import TopAppBar from '../layout/top-app-bar';
 
 export class App extends Component {
   static propTypes = {
@@ -18,7 +20,6 @@ export class App extends Component {
 
   constructor(props, context) {
     super(props, context);
-    this.signOut = this.signOut.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -32,32 +33,20 @@ export class App extends Component {
     }
   }
 
-  signOut() {
-    this.props.signOut();
-    browserHistory.push('/');
-  }
-
   render() {
-    const { auth, children } = this.props;
+    const {
+      auth,
+      children,
+      signOut,
+    } = this.props;
 
     return (
       <div>
-        <AppBar
-          title="3 Days"
-          onTitleTouchTap={() => { browserHistory.push('/trips') } }
-          iconElementLeft={(
-            <IconButton
-              onTouchTap={() => { browserHistory.push('/trips') } }>
-              <FontIcon className="material-icons" style={{ color: 'white' }}>card_travel</FontIcon>
-            </IconButton>) }
-          iconElementRight={auth.authenticated ? (
-            <IconButton
-              onTouchTap={() => { this.signOut() } }>
-              <FontIcon className="material-icons" style={{ color: 'white' }}>exit_to_app</FontIcon>
-            </IconButton>) : null}
-          />
+        <TopAppBar
+          auth={auth}
+          signOut={signOut} />
 
-        <main className="main">{children}</main>
+        <BodyLayoutElement>{children}</BodyLayoutElement>
       </div>
     );
   }

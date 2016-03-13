@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { tripActions } from 'modules/trip';
 
 // Components
-import { ActivityForm } from './activity-form';
+import { ActivityToolbar } from './activity-toolbar';
 import { ActivitiesList } from './activities-list';
 import { ActivitiesMap } from './activities-map';
 
@@ -46,9 +46,11 @@ export class Trip extends Component {
 
     return (
       <div>
-        <ActivityForm createActivity={(data) => {createActivity(tripId, data)}}/>
+        <ActivityToolbar
+          tripId={tripId}
+          createActivity={createActivity} />
 
-        <div className="g-row">
+        <div>
 
           <ActivitiesList
             deleteActivity={(key) => {deleteActivity(tripId, key)}}

@@ -22,8 +22,8 @@ export class ActivitiesMap extends Component {
         return (
           <Marker
             key={activity.key}
-            lat={activity.location.lat}
-            lng={activity.location.lng}
+            lat={activity.geometry.lat}
+            lng={activity.geometry.lng}
             draggable={false} />
         );
       });
@@ -31,13 +31,15 @@ export class ActivitiesMap extends Component {
 
   render() {
     const styleMap = {
-      width: 'calc(50% - 20px)',
-      position: 'absolute',
-      right: '0',
-      height: 'calc(100% - 80px)',
+      width: '512px',
+      display: 'inline-block',
       boxSizing: 'border-box',
-      marginRight: '10px',
+      marginLeft: '533px',
       backgroundColor: 'rgba(255,255,255,0.2)',
+      position: 'fixed',
+      top: '128px',
+      bottom: '0px',
+      boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.12)',
     };
 
     let coords = {
@@ -50,7 +52,7 @@ export class ActivitiesMap extends Component {
     } = this.props;
 
     if(activities.length > 0){
-      coords = activities[0].location;
+      coords = activities[0].geometry;
     }
     return (
       <div

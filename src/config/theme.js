@@ -1,6 +1,6 @@
 import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
 import {
-  teal100,
+  teal50,
   teal300,
   teal500,
   teal700,
@@ -16,13 +16,13 @@ const muiTheme = getMuiTheme({
     primary2Color: teal700,
     primary3Color: lightBlack,
     accent1Color: tealA200,
-    accent2Color: teal100,
+    accent2Color: teal50,
     accent3Color: teal500,
     textColor: darkBlack,
     alternateTextColor: white,
     canvasColor: white,
     borderColor: teal300,
-    disabledColor: teal100,
+    disabledColor: teal50,
     pickerHeaderColor: teal500,
   },
   appBar: {

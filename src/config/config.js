@@ -11,3 +11,7 @@ export const POST_SIGN_OUT_PATH = SIGN_IN_PATH;
 // Images sizes
 export const ACTIVITY_ITEM_MEDIA_LIST_MAX_HEIGHT = 400;
 export const ACTIVITY_ITEM_MEDIA_LIST_MAX_WIDTH = 600;
+
+// Style
+export const defaultWidth = '1045px';
+export const defaultBackgroundColor = '#F7F7F7';
