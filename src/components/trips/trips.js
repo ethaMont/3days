@@ -21,7 +21,7 @@ export class Trips extends Component {
     location: PropTypes.object.isRequired,
     notification: PropTypes.object.isRequired,
     registerListeners: PropTypes.func.isRequired,
-    trips: PropTypes.array.isRequired,
+    trips: PropTypes.object.isRequired,
     undeleteTrip: PropTypes.func.isRequired,
     updateTrip: PropTypes.func.isRequired
   };
@@ -59,7 +59,7 @@ export class Trips extends Component {
     const { filter } = location.query;
 
     return (
-      <div className="g-row">
+      <div style={{paddingTop: '200px'}} className="g-row">
         <div className="g-col">
           <TaskForm createTrip={createTrip}/>
         </div>

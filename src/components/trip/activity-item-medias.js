@@ -39,7 +39,7 @@ export class ActivityItemMedias extends Component {
       //TODO scrolling horizontal css
       <ul className="activity-item-medias-list">
         <ActivityItemFilePicker
-          createActivityMedia={(data) => {createActivityMedia(activity.key, data)}}
+          createActivityMedia={(data) => {createActivityMedia(data)}}
           deleteActivityMedia={deleteActivityMedia} />
         {this.generateMedias(medias)}
       </ul>
@@ -47,13 +47,15 @@ export class ActivityItemMedias extends Component {
   }
 
   generateMedias(medias) {
+    //TODO use something better than toJS()
+    const mediasMap = medias? medias.toJS() : {};
     let mediasRender = [];
 
-    if (!medias || medias.length <= 0) {
+    if (!mediasMap || mediasMap.length <= 0) {
       return mediasRender;
     }
-    for (let key in medias) {
-      mediasRender.push(this.generateMedia(key, medias[key]));
+    for (let key in mediasMap) {
+      mediasRender.push(this.generateMedia(key, mediasMap[key]));
     }
 
     return mediasRender;
@@ -64,7 +66,7 @@ export class ActivityItemMedias extends Component {
       medias,
       defaultMedia,
     } = this.props;
-    if (defaultMedia){
+    if (defaultMedia && !medias){
       return (
         <img src={defaultMedia}
           width={ACTIVITY_ITEM_MEDIA_LIST_MAX_WIDTH}
@@ -72,7 +74,7 @@ export class ActivityItemMedias extends Component {
       );
     }else if (medias){
       return (
-        <img src={this.generateMediaUrl(ACTIVITY_ITEM_MEDIA_LIST_MAX_WIDTH, ACTIVITY_ITEM_MEDIA_LIST_MAX_HEIGHT, medias[Object.keys(medias)[0]])}
+        <img src={this.generateMediaUrl(ACTIVITY_ITEM_MEDIA_LIST_MAX_WIDTH, ACTIVITY_ITEM_MEDIA_LIST_MAX_HEIGHT, medias.first().toJS() )}
           width={ACTIVITY_ITEM_MEDIA_LIST_MAX_WIDTH}
           height={ACTIVITY_ITEM_MEDIA_LIST_MAX_HEIGHT} />
       );

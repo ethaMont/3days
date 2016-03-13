@@ -12,35 +12,35 @@ function route(app) {
             }
         }
     });
-    
+
     app.get('/', function (req, res) {
-        res.sendFile(path.resolve(__dirname + '/../../target/index.html'));    
+        res.sendFile(path.resolve(__dirname + '/../../target/index.html'));
     });
     app.get('/trips', function (req, res) {
-        res.sendFile(path.resolve(__dirname + '/../../target/index.html'));    
+        res.sendFile(path.resolve(__dirname + '/../../target/index.html'));
     });
     app.get('/trip', function (req, res) {
-        res.sendFile(path.resolve(__dirname + '/../../target/index.html'));    
+        res.sendFile(path.resolve(__dirname + '/../../target/index.html'));
     });
     app.get('/main.js', function (req, res) {
-        res.sendFile(path.resolve(__dirname + '/../../target/main.js'));    
+        res.sendFile(path.resolve(__dirname + '/../../target/main.js'));
     });
     app.get('/vendor.js', function (req, res) {
-        res.sendFile(path.resolve(__dirname + '/../../target/vendor.js'));    
+        res.sendFile(path.resolve(__dirname + '/../../target/vendor.js'));
     });
     app.get('/styles/styles.css', function (req, res) {
-        res.sendFile(path.resolve(__dirname + '/../../target/styles.css'));    
+        res.sendFile(path.resolve(__dirname + '/../../target/styles.css'));
     });
     app.get('/styles.css', function (req, res) {
-        res.sendFile(path.resolve(__dirname + '/../../target/styles.css'));    
+        res.sendFile(path.resolve(__dirname + '/../../target/styles.css'));
     });
-    
+
     app.param('id', function (req, res, next, id) {
         next();
     });
 
-    app.get('/trip/:id', function (req, res) {
-        res.sendFile(path.resolve(__dirname + '/../../target/index.html'));    
+    app.get('/trips/:slug/:id', function (req, res) {
+        res.sendFile(path.resolve(__dirname + '/../../target/index.html'));
     });
 }
 

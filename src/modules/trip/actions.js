@@ -11,6 +11,9 @@ import {
   DELETE_ACTIVITY_MEDIA_SUCCESS,
 } from './action-types';
 
+import {
+  normalizeTrip,
+} from 'schema/normalize'
 
 export function createActivity(tripId, obj) {
   return (dispatch, getState) => {
@@ -107,24 +110,35 @@ export function registerListeners(tripId) {
 
     ref.orderByChild('order').on('child_added', snapshot => dispatch({
       type: CREATE_ACTIVITY_SUCCESS,
-      payload: recordFromSnapshot(snapshot)
+      tripId: tripId,
+      payload: recordFromSnapshot(snapshot, tripId),
     }));
 
     ref.on('child_changed', snapshot => dispatch({
       type: UPDATE_ACTIVITY_SUCCESS,
-      payload: recordFromSnapshot(snapshot)
+      tripId: tripId,
+      payload: recordFromSnapshot(snapshot, tripId)
     }));
 
     ref.on('child_removed', snapshot => dispatch({
       type: DELETE_ACTIVITY_SUCCESS,
-      payload: recordFromSnapshot(snapshot)
+      tripId: tripId,
+      activityId: snapshot.key(),
+      payload: recordFromSnapshot(snapshot, tripId)
     }));
   };
 }
 
 
-function recordFromSnapshot(snapshot) {
+function recordFromSnapshot(snapshot, tripId) {
   let record = snapshot.val();
   record.key = snapshot.key();
-  return record;
+
+  let trips = {};
+  trips[tripId] = normalizeTrip({trip: record});
+  return trips;
+
+  // let trips = { };
+  // trips[tripId] = normalizeActivity({activity: record});
+  // return { trips };
 }

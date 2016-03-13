@@ -4,7 +4,7 @@ import { paddingTopTrip } from 'config/config';
 
 export class ActivitiesMap extends Component {
   static propTypes = {
-    activities: PropTypes.array.isRequired,
+    activities: PropTypes.object.isRequired,
   };
 
   onMapCreated(map) {
@@ -14,7 +14,7 @@ export class ActivitiesMap extends Component {
   }
 
   clickMarker(activity) {
-    const element = document.querySelector(`#activity-${activity.key}`);
+    const element = document.querySelector(`#activity-${activity.get('key')}`);
     const bodyRect = document.body.getBoundingClientRect();
     const elemRect = element.getBoundingClientRect();
     const offset = elemRect.top - bodyRect.top;
@@ -28,12 +28,13 @@ export class ActivitiesMap extends Component {
     } = this.props;
 
     return activities
+      .valueSeq()
       .map((activity, index) => {
         return (
           <Marker
-            key={activity.key}
-            lat={activity.geometry.lat}
-            lng={activity.geometry.lng}
+            key={activity.get('key')}
+            lat={activity.get('geometry').get('lat')}
+            lng={activity.get('geometry').get('lng')}
             onClick={() => { this.clickMarker(activity) }}
             draggable={false} />
         );
@@ -62,9 +63,10 @@ export class ActivitiesMap extends Component {
       activities,
     } = this.props;
 
-    if(activities.length > 0){
-      coords = activities[0].geometry;
+    if(activities.size > 0){
+      coords = activities.first().get('geometry').toJS();
     }
+
     return (
       <div
         style={styleMap}>

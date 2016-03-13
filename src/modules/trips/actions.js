@@ -7,6 +7,9 @@ import {
   UPDATE_TRIP_SUCCESS
 } from './action-types';
 
+import {
+  normalizeTrip,
+} from 'schema/normalize'
 
 export function createTrip(title) {
   return (dispatch, getState) => {
@@ -14,7 +17,7 @@ export function createTrip(title) {
 
     firebase.child(`trips/`)
       .push({
-          completed: false, 
+          completed: false,
           title: title,
           user_id: auth.id
     }, error => {
@@ -56,7 +59,7 @@ export function undeleteTrip() {
     firebase.child(`trips/${trip.key}`)
       .set({
             user_id: auth.id,
-            completed: trip.completed, 
+            completed: trip.completed,
             title: trip.title}, error => {
         if (error) {
           console.error('ERROR @ undeleteTrip :', error); // eslint-disable-line no-console
@@ -66,11 +69,11 @@ export function undeleteTrip() {
 }
 
 
-export function updateTrip(task, changes) {
+export function updateTrip(tripKey, changes) {
   return (dispatch, getState) => {
     const { auth, firebase } = getState();
 
-    firebase.child(`trips/${task.key}`)
+    firebase.child(`trips/${tripKey}`)
       .update(changes, error => {
         if (error) {
           console.error('ERROR @ updateTrip :', error); // eslint-disable-line no-console
@@ -91,7 +94,7 @@ export function registerListeners() {
 
     ref.on('child_added', snapshot => dispatch({
       type: CREATE_TRIP_SUCCESS,
-      payload: recordFromSnapshot(snapshot)
+      payload: normalizeTrip(recordFromSnapshot(snapshot))
     }));
 
     ref.on('child_changed', snapshot => dispatch({
@@ -110,5 +113,5 @@ export function registerListeners() {
 function recordFromSnapshot(snapshot) {
   let record = snapshot.val();
   record.key = snapshot.key();
-  return record;
+  return { trip: record };
 }

@@ -39,9 +39,9 @@ export class ActivityForm extends Component {
         // types : ['geocode', 'establishment', 'cities', 'regions'],
       }
     );
-
     google.maps.event.addListener(autoComplete, 'place_changed', () => {
       this.onSubmit(autoComplete.getPlace());
+      this.refs.add_activity.input.value = "";
     });
   }
 

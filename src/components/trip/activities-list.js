@@ -5,7 +5,7 @@ import { paddingTopTrip } from 'config/config';
 export class ActivitiesList extends Component {
   static propTypes = {
     deleteActivity: PropTypes.func.isRequired,
-    activities: PropTypes.array.isRequired,
+    activities: PropTypes.object.isRequired,
     updateActivity: PropTypes.func.isRequired,
     createActivityMedia: PropTypes.func.isRequired,
     deleteActivityMedia: PropTypes.func.isRequired,
@@ -20,13 +20,15 @@ export class ActivitiesList extends Component {
       updateActivity,
     } = this.props;
 
-    return activities
+    //TODO: find a better way for the next/prev
+    const arrayActivities = activities.toArray();
+    return arrayActivities
       .sort((a,b) => {
-          return b.order - a.order;
+        return b.get('order') - a.get('order');
       })
       .map((activity, index) => {
         const firstItem = index === 0;
-        const lastItem = index === (activities.length - 1);
+        const lastItem = index === (arrayActivities.length - 1);
 
         return (
           <ActivityItem
@@ -38,8 +40,8 @@ export class ActivitiesList extends Component {
             createActivityMedia={createActivityMedia}
             deleteActivityMedia={deleteActivityMedia}
             updateActivity={updateActivity}
-            prevItem={!lastItem ? activities[index + 1] : null}
-            nextItem={!firstItem ? activities[index - 1] : null}
+            prevItem={!lastItem ? arrayActivities[index + 1] : null}
+            nextItem={!firstItem ? arrayActivities[index - 1] : null}
             />
         );
       });

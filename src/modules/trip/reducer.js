@@ -1,4 +1,9 @@
 import {
+  Map,
+  fromJS,
+} from 'immutable';
+
+import {
   SIGN_OUT_SUCCESS
 } from 'modules/auth';
 
@@ -8,47 +13,44 @@ import {
   UPDATE_ACTIVITY_SUCCESS
 } from './action-types';
 
-
 export const initialState = {
   deleted: null,
-  list: [],
+  list: new Map(),
   previous: []
 };
-
 
 export function tripReducer(state = initialState, action) {
   switch (action.type) {
     case CREATE_ACTIVITY_SUCCESS:
-      let list;
+      // let list;
 
-      if (state.deleted && state.deleted.key === action.payload.key) {
-        list = [ ...state.previous ];
-      }
-      else {
-        list = [ action.payload, ...state.list ];
-      }
+      // if (state.deleted && state.deleted.key === action.payload.key) {
+      //   list = [ ...state.previous ];
+      // }
+      // else {
+      //   list = [ action.payload, ...state.list ];
+      // // }
+      // if (!state.list[tripId]){
+      //   state.list[tripId] = new Map();
+      // }
 
       return {
         deleted: null,
-        list,
-        previous: []
+        list: state.list.mergeDeep(action.payload),
+        previous: [],
       };
 
     case DELETE_ACTIVITY_SUCCESS:
       return {
         deleted: action.payload,
-        list: state.list.filter(activity => {
-          return activity.key !== action.payload.key;
-        }),
+        list: state.list.deleteIn([action.tripId, 'entities', 'trips', action.activityId]),
         previous: [ ...state.list ]
       };
 
     case UPDATE_ACTIVITY_SUCCESS:
       return {
         deleted: null,
-        list: state.list.map(activity => {
-          return activity.key === action.payload.key ? action.payload : activity;
-        }),
+        list: state.list.mergeDeep(action.payload),
         previous: []
       };
 

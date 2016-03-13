@@ -21,7 +21,6 @@ export class TripItem extends Component {
     this.editTitle = this.editTitle.bind(this);
     this.saveTitle = this.saveTitle.bind(this);
     this.stopEditing = this.stopEditing.bind(this);
-    this.toggleStatus = this.toggleStatus.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
   }
 
@@ -38,8 +37,8 @@ export class TripItem extends Component {
       const { trip } = this.props;
       const title = event.target.value.trim();
 
-      if (title.length && title !== trip.title) {
-        this.props.updateTrip(trip, {title});
+      if (title.length && title !== trip.get('title')) {
+        this.props.updateTrip(trip.get('key'), {title});
       }
 
       this.stopEditing();
@@ -48,11 +47,6 @@ export class TripItem extends Component {
 
   stopEditing() {
     this.setState({editing: false});
-  }
-
-  toggleStatus() {
-    let checked = !this.props.trip.completed;
-    this.props.updateTrip(this.props.trip, {completed: checked});
   }
 
   onKeyUp(event) {
@@ -65,7 +59,7 @@ export class TripItem extends Component {
   }
 
   renderTitle(trip) {
-    const slugUrl = slug(trip.title);
+    const slugUrl = slug(trip.get('title'));
 
     return (
       <div
@@ -73,7 +67,7 @@ export class TripItem extends Component {
         className="trip-item__title"
         ref="titleText"
         tabIndex="0">
-            <Link to={{ pathname:`${TRIP_PATH}${slugUrl}/${trip.key}` }}>{trip.title}</Link>
+            <Link to={{ pathname:`${TRIP_PATH}${slugUrl}/${trip.get('key')}` }}>{trip.get('title')}</Link>
         </div>
     );
   }
@@ -98,16 +92,15 @@ export class TripItem extends Component {
     const { trip } = this.props;
 
     return (
-      <div className={classNames('trip-item', {'trip-item--completed': trip.completed, 'trip-item--editing': editing})} tabIndex="0">
+      <div className={classNames('trip-item', {'trip-item--editing': editing})} tabIndex="0">
         <div className="cell">
           <button
             aria-hidden={editing}
             aria-label="Mark trip as completed"
             className={classNames('trip-item__button', {'hide': editing})}
-            onClick={this.toggleStatus}
             ref="toggleStatusButton"
             type="button">
-            <svg className={classNames('icon', {'icon--active': trip.completed})} width="24" height="24" viewBox="0 0 24 24">
+            <svg className={classNames('icon')} width="24" height="24" viewBox="0 0 24 24">
               <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"></path>
             </svg>
           </button>

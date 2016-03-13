@@ -6,7 +6,7 @@ export class TripList extends Component {
   static propTypes = {
     deleteTrip: PropTypes.func.isRequired,
     filter: PropTypes.string,
-    trips: PropTypes.array.isRequired,
+    trips: PropTypes.object.isRequired,
     updateTrip: PropTypes.func.isRequired
   };
 
@@ -18,10 +18,13 @@ export class TripList extends Component {
       auth,
       updateTrip
     } = this.props;
-    
+
     return trips
+      .valueSeq()
       .filter(trip => {
-        if (filter === 'my_trips') return trip.user_id === auth.id;
+        if (filter === 'my_trips') {
+          return trip.get('user_id') === auth.id;
+        }
         return trip;
       })
       .map((trip, index) => {

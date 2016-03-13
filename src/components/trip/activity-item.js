@@ -177,8 +177,8 @@ export class ActivityItem extends Component {
       updateActivity,
     } = this.props;
 
-    updateActivity(prevItem.key, { order: activity.order });
-    updateActivity(activity.key, { order: prevItem.order });
+    updateActivity(prevItem.get('key'), { order: activity.get('order') });
+    updateActivity(activity.get('key'), { order: prevItem.get('order') });
   };
 
   handleMoveDown = () => {
@@ -188,8 +188,8 @@ export class ActivityItem extends Component {
       updateActivity,
     } = this.props;
 
-    updateActivity(nextItem.key, { order: activity.order });
-    updateActivity(activity.key, { order: nextItem.order });
+    updateActivity(nextItem.get('key'), { order: activity.get('order') });
+    updateActivity(activity.get('key'), { order: nextItem.get('order') });
   };
 
   handleToggle = (event, toggle) => {
@@ -241,30 +241,30 @@ export class ActivityItem extends Component {
     return (
       <div
         className="activity-item"
-        id={`activity-${activity.key}`}
+        id={`activity-${activity.get('key')}`}
         style={ containerStyle }>
-        <Card key={activity.key} expanded={expanded} onExpandChange={this.handleExpandChange}>
+        <Card key={activity.get('key')} expanded={expanded} onExpandChange={this.handleExpandChange}>
           <CardHeader
             titleStyle={titleStyle}
             subtitleStyle={titleStyle}
-            title={activity.name}
-            subtitle={activity.types.join(', ') }
-            avatar={activity.icon}
+            title={activity.get('name')}
+            subtitle={activity.get('types').join(', ') }
+            avatar={activity.get('icon')}
             actAsExpander={true}
             showExpandableButton={true}
             textStyle={{ width: 'calc(100% - 90px)' }}
             />
 
           <ActivityItemMedias
-            createActivityMedia={createActivityMedia}
+            createActivityMedia={ (data) => {createActivityMedia(activity.get('key'), data)} }
             deleteActivityMedia={deleteActivityMedia}
-            medias={activity.medias}
+            medias={activity.get('medias')}
             expandable={expanded}
-            defaultMedia={activity.default_photo} />
+            defaultMedia={activity.get('default_photo')} />
 
           {expanded ?
             <CardTitle
-              subtitle={activity.adr_address.replace(/<(?:.|\n)*?>/gm, '') } />
+              subtitle={activity.get('adr_address').replace(/<(?:.|\n)*?>/gm, '') } />
             : null}
 
           <CardText expandable={true}>
@@ -273,7 +273,7 @@ export class ActivityItem extends Component {
             </div>
           </CardText>
           <CardActions>
-            <FlatButton label="Delete" onTouchTap={(data) => { deleteActivity(activity.key) } } />
+            <FlatButton label="Delete" onTouchTap={(data) => { deleteActivity(activity.get('key')) } } />
             <FlatButton label="Add to my trip" onTouchTap={ () => { alert('Not plugged yet') } } />
 
             {!lastItem ?

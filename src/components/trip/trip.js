@@ -20,11 +20,7 @@ export class Trip extends Component {
     createActivityMedia: PropTypes.func.isRequired,
     deleteActivityMedia: PropTypes.func.isRequired,
     registerListeners: PropTypes.func.isRequired,
-    activities: PropTypes.array.isRequired,
-//     location: PropTypes.object.isRequired,
-//     notification: PropTypes.object.isRequired,
-//     undeleteTrip: PropTypes.func.isRequired,
-//     updateTrip: PropTypes.func.isRequired
+    activities: PropTypes.object.isRequired,
   };
 
   componentWillMount() {
@@ -39,11 +35,21 @@ export class Trip extends Component {
       updateActivity,
       createActivityMedia,
       deleteActivityMedia,
-      activities,
     } = this.props
 
-    const tripId = this.props.routeParams.tripId
-    const currentOrderIndex = activities.length > 0 ? activities[0].order + 1 : 0;
+    const tripId = this.props.routeParams.tripId;
+
+    let displayActivities = true;
+    if (this.props.activities.size === 0 || !this.props.activities.get(tripId)) {
+      displayActivities = false;
+    }
+
+    let activities;
+    let currentOrderIndex = 0;
+    if (displayActivities) {
+      activities = this.props.activities.get(tripId).get('entities').get('trips');
+      currentOrderIndex = activities.size > 0 ? activities.last().get('order') + 1 : 0;
+    }
 
     return (
       <div>
@@ -52,19 +58,21 @@ export class Trip extends Component {
           currentOrderIndex={currentOrderIndex}
           createActivity={createActivity} />
 
-        <div>
 
-          <ActivitiesList
-            deleteActivity={(key) => {deleteActivity(tripId, key)}}
-            updateActivity={(activityId, data) => {updateActivity(tripId, activityId, data)}}
-            createActivityMedia={(activityId, data) => {createActivityMedia(tripId, activityId, data)}}
-            deleteActivityMedia={deleteActivityMedia}
-            activities={activities} />
+        {displayActivities ?
+          <div>
+            <ActivitiesList
+              deleteActivity={(key) => { deleteActivity(tripId, key) } }
+              updateActivity={(activityId, data) => { updateActivity(tripId, activityId, data) } }
+              createActivityMedia={(activityId, data) => { createActivityMedia(tripId, activityId, data) } }
+              deleteActivityMedia={deleteActivityMedia}
+              activities={activities} />
 
-          <ActivitiesMap
-            activities={activities} />
+            <ActivitiesMap
+              activities={activities} />
+          </div>
+          : null}
 
-        </div>
       </div>
     );
   }

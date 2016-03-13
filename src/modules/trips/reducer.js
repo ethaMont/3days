@@ -1,4 +1,9 @@
 import {
+  Map,
+  fromJS,
+} from 'immutable';
+
+import {
   SIGN_OUT_SUCCESS
 } from 'modules/auth';
 
@@ -11,7 +16,7 @@ import {
 
 export const initialState = {
   deleted: null,
-  list: [],
+  list: new Map(),
   previous: []
 };
 
@@ -19,19 +24,22 @@ export const initialState = {
 export function tripsReducer(state = initialState, action) {
   switch (action.type) {
     case CREATE_TRIP_SUCCESS:
-      let list;
+      // let list;
 
-      if (state.deleted && state.deleted.key === action.payload.key) {
-        list = [ ...state.previous ];
-      }
-      else {
-        list = [ action.payload, ...state.list ];
-      }
+      // if (state.deleted && state.deleted.key === action.payload.key) {
+      //   list = [ ...state.previous ];
+      // }
+      // else {
+        // console.log(action)
+        // list = Object.assign(state.list, action.payload.entities.trips);
+        // console.log(list)
+        // list = [ action.payload, ...state.list ];
+      // }
 
       return {
         deleted: null,
-        list,
-        previous: []
+        list: state.list.mergeDeep(action.payload.entities.trips),
+        previous: [],
       };
 
     case DELETE_TRIP_SUCCESS:
