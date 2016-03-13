@@ -22,6 +22,7 @@ export class ActivityToolbar extends Component {
   render() {
     const {
       tripId,
+      currentOrderIndex,
       createActivity,
     } = this.props
 
@@ -47,6 +48,7 @@ export class ActivityToolbar extends Component {
         <Toolbar style={toolbarStyle}>
           <ToolbarGroup firstChild={true} float="left">
             <ActivityForm
+              currentOrderIndex={currentOrderIndex}
               createActivity={(data) => {createActivity(tripId, data)}}/>
           </ToolbarGroup>
           <ToolbarGroup float="right">

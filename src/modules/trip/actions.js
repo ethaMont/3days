@@ -105,7 +105,7 @@ export function registerListeners(tripId) {
     const { auth, firebase } = getState();
     const ref = firebase.child(`trips/${tripId}/activities/`);
 
-    ref.on('child_added', snapshot => dispatch({
+    ref.orderByChild('order').on('child_added', snapshot => dispatch({
       type: CREATE_ACTIVITY_SUCCESS,
       payload: recordFromSnapshot(snapshot)
     }));

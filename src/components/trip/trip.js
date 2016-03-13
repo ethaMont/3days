@@ -43,18 +43,20 @@ export class Trip extends Component {
     } = this.props
 
     const tripId = this.props.routeParams.tripId
+    const currentOrderIndex = activities.length > 0 ? activities[0].order + 1 : 0;
 
     return (
       <div>
         <ActivityToolbar
           tripId={tripId}
+          currentOrderIndex={currentOrderIndex}
           createActivity={createActivity} />
 
         <div>
 
           <ActivitiesList
             deleteActivity={(key) => {deleteActivity(tripId, key)}}
-            updateActivity={updateActivity}
+            updateActivity={(activityId, data) => {updateActivity(tripId, activityId, data)}}
             createActivityMedia={(activityId, data) => {createActivityMedia(tripId, activityId, data)}}
             deleteActivityMedia={deleteActivityMedia}
             activities={activities} />

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import {Gmaps, Marker, InfoWindow, Circle} from 'react-gmaps';
+import { Gmaps, Marker, InfoWindow, Circle } from 'react-gmaps';
+import { paddingTopTrip } from 'config/config';
 
 export class ActivitiesMap extends Component {
   static propTypes = {
@@ -10,6 +11,15 @@ export class ActivitiesMap extends Component {
     map.setOptions({
       disableDefaultUI: true
     });
+  }
+
+  clickMarker(activity) {
+    const element = document.querySelector(`#activity-${activity.key}`);
+    const bodyRect = document.body.getBoundingClientRect();
+    const elemRect = element.getBoundingClientRect();
+    const offset = elemRect.top - bodyRect.top;
+
+    window.scrollTo(0, offset - paddingTopTrip);
   }
 
   renderTripActivities() {
@@ -24,6 +34,7 @@ export class ActivitiesMap extends Component {
             key={activity.key}
             lat={activity.geometry.lat}
             lng={activity.geometry.lng}
+            onClick={() => { this.clickMarker(activity) }}
             draggable={false} />
         );
       });
@@ -37,7 +48,7 @@ export class ActivitiesMap extends Component {
       marginLeft: '533px',
       backgroundColor: 'rgba(255,255,255,0.2)',
       position: 'fixed',
-      top: '128px',
+      top: `${paddingTopTrip}px`,
       bottom: '0px',
       boxShadow: '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.12)',
     };

@@ -52,8 +52,9 @@ export class ActivityForm extends Component {
     if (location.geometry) {
       location.geometry = this.getGeometry(location.geometry);
     }
-
     delete location.photos;
+
+    location.order = this.props.currentOrderIndex;
     this.props.createActivity(location);
   }
 

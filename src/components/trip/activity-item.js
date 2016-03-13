@@ -144,6 +144,10 @@
 // }
 // import React from 'react';
 import React, { Component, PropTypes } from 'react';
+import { ActivityItemMedias } from './activity-item-medias';
+
+import IconButton from 'material-ui/lib/icon-button';
+import FontIcon from 'material-ui/lib/font-icon';
 import Card from 'material-ui/lib/card/card';
 import CardActions from 'material-ui/lib/card/card-actions';
 import CardHeader from 'material-ui/lib/card/card-header';
@@ -151,13 +155,12 @@ import CardTitle from 'material-ui/lib/card/card-title';
 import FlatButton from 'material-ui/lib/flat-button';
 import CardText from 'material-ui/lib/card/card-text';
 import Toggle from 'material-ui/lib/toggle';
-import { ActivityItemMedias } from './activity-item-medias';
 
 export class ActivityItem extends Component {
 
   constructor(props) {
     super(props);
-    debugger
+
     this.state = {
       expanded: true,
     };
@@ -165,6 +168,28 @@ export class ActivityItem extends Component {
 
   handleExpandChange = (expanded) => {
     this.setState({ expanded: expanded });
+  };
+
+  handleMoveUp = () => {
+    const {
+      activity,
+      prevItem,
+      updateActivity,
+    } = this.props;
+
+    updateActivity(prevItem.key, { order: activity.order });
+    updateActivity(activity.key, { order: prevItem.order });
+  };
+
+  handleMoveDown = () => {
+    const {
+      activity,
+      nextItem,
+      updateActivity,
+    } = this.props;
+
+    updateActivity(nextItem.key, { order: activity.order });
+    updateActivity(activity.key, { order: nextItem.order });
   };
 
   handleToggle = (event, toggle) => {
@@ -190,7 +215,13 @@ export class ActivityItem extends Component {
       deleteActivity,
       createActivityMedia,
       deleteActivityMedia,
+      firstItem,
+      lastItem,
     } = this.props;
+
+    const containerStyle = {
+      marginBottom: '10px',
+    };
 
     const titleStyle = {
       overflow: 'hidden',
@@ -202,8 +233,16 @@ export class ActivityItem extends Component {
       display: 'inline-block',
     };
 
+    const iconButtonStyle = {
+      float: 'right',
+      marginRight: '-4px',
+    };
+
     return (
-      <div style={{ marginBottom: '10px' }}>
+      <div
+        className="activity-item"
+        id={`activity-${activity.key}`}
+        style={ containerStyle }>
         <Card key={activity.key} expanded={expanded} onExpandChange={this.handleExpandChange}>
           <CardHeader
             titleStyle={titleStyle}
@@ -223,8 +262,10 @@ export class ActivityItem extends Component {
             expandable={expanded}
             defaultMedia={activity.default_photo} />
 
-          <CardTitle
-            subtitle={activity.adr_address.replace(/<(?:.|\n)*?>/gm, '')} />
+          {expanded ?
+            <CardTitle
+              subtitle={activity.adr_address.replace(/<(?:.|\n)*?>/gm, '') } />
+            : null}
 
           <CardText expandable={true}>
             <div onTouchTap={ () => { alert('Not plugged yet') } }>
@@ -234,6 +275,22 @@ export class ActivityItem extends Component {
           <CardActions>
             <FlatButton label="Delete" onTouchTap={(data) => { deleteActivity(activity.key) } } />
             <FlatButton label="Add to my trip" onTouchTap={ () => { alert('Not plugged yet') } } />
+
+            {!lastItem ?
+              <IconButton
+                style={iconButtonStyle}
+                onTouchTap={() => { this.handleMoveDown() } }>
+                <FontIcon className="material-icons">arrow_downward</FontIcon>
+              </IconButton>
+              : null}
+            {!firstItem ?
+              <IconButton
+                style={iconButtonStyle}
+                onTouchTap={() => { this.handleMoveUp() } }>
+                <FontIcon className="material-icons">arrow_upward</FontIcon>
+              </IconButton>
+              : null}
+
           </CardActions>
         </Card>
       </div>

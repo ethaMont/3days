@@ -15,3 +15,4 @@ export const ACTIVITY_ITEM_MEDIA_LIST_MAX_WIDTH = 600;
 // Style
 export const defaultWidth = '1045px';
 export const defaultBackgroundColor = '#F7F7F7';
+export const paddingTopTrip = '128';
