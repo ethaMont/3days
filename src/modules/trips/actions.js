@@ -17,10 +17,10 @@ export function createTrip(title) {
 
     firebase.child(`trips/`)
       .push({
-          completed: false,
-          title: title,
-          user_id: auth.id
-    }, error => {
+        completed: false,
+        title: title,
+        user_id: auth.id
+      }, error => {
         if (error) {
           console.error('ERROR @ createTrip :', error); // eslint-disable-line no-console
           dispatch({
@@ -33,11 +33,11 @@ export function createTrip(title) {
 }
 
 
-export function deleteTrip(trip) {
+export function deleteTrip(tripId) {
   return (dispatch, getState) => {
     const { auth, firebase } = getState();
 
-    firebase.child(`trips/${trip.key}`)
+    firebase.child(`trips/${tripId}`)
       .remove(error => {
         if (error) {
           console.error('ERROR @ deleteTrip :', error); // eslint-disable-line no-console
@@ -54,13 +54,11 @@ export function deleteTrip(trip) {
 export function undeleteTrip() {
   return (dispatch, getState) => {
     const { auth, firebase, trips } = getState();
-    const trip = trips.deleted;
+    const trip = trips.deleted.entities.trips[Object.keys(trips.deleted.entities.trips)[0]];
 
-    firebase.child(`trips/${trip.key}`)
-      .set({
-            user_id: auth.id,
-            completed: trip.completed,
-            title: trip.title}, error => {
+    firebase
+      .child(`trips/${trip.key}`)
+      .set(trip, error => {
         if (error) {
           console.error('ERROR @ undeleteTrip :', error); // eslint-disable-line no-console
         }
@@ -94,7 +92,7 @@ export function registerListeners() {
 
     ref.on('child_added', snapshot => dispatch({
       type: CREATE_TRIP_SUCCESS,
-      payload: normalizeTrip(recordFromSnapshot(snapshot))
+      payload: recordFromSnapshot(snapshot)
     }));
 
     ref.on('child_changed', snapshot => dispatch({
@@ -113,5 +111,5 @@ export function registerListeners() {
 function recordFromSnapshot(snapshot) {
   let record = snapshot.val();
   record.key = snapshot.key();
-  return { trip: record };
+  return normalizeTrip({ trip: record });
 }

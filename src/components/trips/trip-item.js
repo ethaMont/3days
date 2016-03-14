@@ -17,15 +17,10 @@ export class TripItem extends Component {
 
     this.state = {editing: false};
 
-    this.delete = this.delete.bind(this);
     this.editTitle = this.editTitle.bind(this);
     this.saveTitle = this.saveTitle.bind(this);
     this.stopEditing = this.stopEditing.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
-  }
-
-  delete() {
-    this.props.deleteTrip(this.props.trip);
   }
 
   editTitle() {
@@ -78,7 +73,7 @@ export class TripItem extends Component {
         autoComplete="off"
         autoFocus
         className="trip-item__input"
-        defaultValue={trip.title}
+        defaultValue={trip.get('title')}
         maxLength="64"
         onBlur={this.saveTitle}
         onKeyUp={this.onKeyUp}
@@ -138,7 +133,7 @@ export class TripItem extends Component {
             aria-hidden={editing}
             aria-label="Delete trip"
             className={classNames('trip-item__button', {'hide': editing})}
-            onClick={this.delete}
+            onClick={() => { this.props.deleteTrip(trip.get('key')) }}
             ref="deleteButton"
             type="button">
             <svg className="icon"  width="24" height="24" viewBox="0 0 24 24">

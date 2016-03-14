@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+import Snackbar from 'material-ui/lib/snackbar';
+import RaisedButton from 'material-ui/lib/raised-button';
 
 export class Notification extends Component {
   static propTypes = {
@@ -11,49 +13,25 @@ export class Notification extends Component {
     message: PropTypes.string.isRequired
   };
 
-  componentDidMount() {
-    this.startTimer();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.display) {
-      this.startTimer();
-    }
-  }
-
-  componentWillUnmount() {
-    this.clearTimer();
-  }
-
-  clearTimer() {
-    if (this.timerId) {
-      clearTimeout(this.timerId);
-    }
-  }
-
-  startTimer() {
-    this.clearTimer();
-    this.timerId = setTimeout(() => {
-      this.props.dismiss();
-    }, this.props.duration || 5000);
-  }
-
   render() {
     const {
       action,
       actionLabel,
-      message
+      dismiss,
+      display,
+      duration,
+      message,
     } = this.props;
 
     return (
-      <div className="notification">
-        <p className="notification__message" ref="message">{message}</p>
-        <button
-          className="notification__button"
-          onClick={action}
-          ref="button"
-          type="button">{actionLabel}</button>
-      </div>
+        <Snackbar
+          open={display}
+          message={message}
+          action={actionLabel}
+          autoHideDuration={duration || 5000}
+          onActionTouchTap={action}
+          onRequestClose={dismiss}
+        />
     );
   }
 }

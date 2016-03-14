@@ -24,18 +24,6 @@ export const initialState = {
 export function tripsReducer(state = initialState, action) {
   switch (action.type) {
     case CREATE_TRIP_SUCCESS:
-      // let list;
-
-      // if (state.deleted && state.deleted.key === action.payload.key) {
-      //   list = [ ...state.previous ];
-      // }
-      // else {
-        // console.log(action)
-        // list = Object.assign(state.list, action.payload.entities.trips);
-        // console.log(list)
-        // list = [ action.payload, ...state.list ];
-      // }
-
       return {
         deleted: null,
         list: state.list.mergeDeep(action.payload.entities.trips),
@@ -45,18 +33,14 @@ export function tripsReducer(state = initialState, action) {
     case DELETE_TRIP_SUCCESS:
       return {
         deleted: action.payload,
-        list: state.list.filter(task => {
-          return task.key !== action.payload.key;
-        }),
+        list: state.list.delete(Object.keys(action.payload.entities.trips)[0]),
         previous: [ ...state.list ]
       };
 
     case UPDATE_TRIP_SUCCESS:
       return {
         deleted: null,
-        list: state.list.map(task => {
-          return task.key === action.payload.key ? action.payload : task;
-        }),
+        list: state.list.mergeDeep(action.payload.entities.trips),
         previous: []
       };
 
