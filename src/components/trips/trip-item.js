@@ -1,9 +1,7 @@
 import classNames from 'classnames';
-import slug from 'limax';
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { TRIP_PATH } from 'config/config';
-
+import { getTripUrl } from 'helpers/trip-helper'
 
 export class TripItem extends Component {
   static propTypes = {
@@ -54,15 +52,13 @@ export class TripItem extends Component {
   }
 
   renderTitle(trip) {
-    const slugUrl = slug(trip.get('title'));
-
     return (
       <div
         onclick=""
         className="trip-item__title"
         ref="titleText"
         tabIndex="0">
-            <Link to={{ pathname:`${TRIP_PATH}${slugUrl}/${trip.get('key')}` }}>{trip.get('title')}</Link>
+            <Link to={{ pathname: getTripUrl(trip.get('key'), trip.get('title')) }}>{trip.get('title')}</Link>
         </div>
     );
   }

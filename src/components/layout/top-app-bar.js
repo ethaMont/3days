@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router'
+import { browserHistory } from 'react-router';
+import { TRIPS_PATH } from 'config/config';
 
 import AppBar from 'material-ui/lib/app-bar';
 import IconButton from 'material-ui/lib/icon-button';
@@ -26,10 +27,10 @@ export default class TopAppBar extends Component {
       <AppBar
         style={style}
         title="3 Days"
-        onTitleTouchTap={() => { browserHistory.push('/trips') } }
+        onTitleTouchTap={() => { browserHistory.push(TRIPS_PATH) } }
         iconElementLeft={(
           <IconButton
-            onTouchTap={() => { browserHistory.push('/trips') } }>
+            onTouchTap={() => { browserHistory.push(TRIPS_PATH) } }>
             <FontIcon className="material-icons" style={{ color: 'white' }}>card_travel</FontIcon>
           </IconButton>) }
         iconElementRight={auth.authenticated ? (

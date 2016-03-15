@@ -7,6 +7,7 @@ import { firebaseReducer } from 'modules/firebase';
 import { notificationReducer } from 'modules/notification';
 import { tripsReducer } from 'modules/trips';
 import { tripReducer } from 'modules/trip';
+import { createTripModalReducer } from 'modules/create-trip';
 
 
 export default combineReducers({
@@ -16,4 +17,5 @@ export default combineReducers({
   routing: routerReducer,
   trips: tripsReducer,
   trip: tripReducer,
+  createTripModal: createTripModalReducer,
 });

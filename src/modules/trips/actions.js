@@ -9,13 +9,22 @@ import {
 
 import {
   normalizeTrip,
-} from 'schema/normalize'
+} from 'schema/normalize';
+
+import { getTripUrl } from 'helpers/trip-helper'
+import { browserHistory } from 'react-router'
+
+
+function tripCreated(trip, title){
+  const url = getTripUrl(trip.key(), title);
+  browserHistory.push(url);
+}
 
 export function createTrip(title) {
   return (dispatch, getState) => {
     const { auth, firebase } = getState();
 
-    firebase.child(`trips/`)
+    const trip = firebase.child(`trips/`)
       .push({
         completed: false,
         title: title,
@@ -27,11 +36,12 @@ export function createTrip(title) {
             type: CREATE_TRIP_ERROR,
             payload: error
           });
+        } else {
+          tripCreated(trip, title);
         }
       });
   };
 }
-
 
 export function deleteTrip(tripId) {
   return (dispatch, getState) => {
@@ -50,7 +60,6 @@ export function deleteTrip(tripId) {
   };
 }
 
-
 export function undeleteTrip() {
   return (dispatch, getState) => {
     const { auth, firebase, trips } = getState();
@@ -65,7 +74,6 @@ export function undeleteTrip() {
       });
   };
 }
-
 
 export function updateTrip(tripKey, changes) {
   return (dispatch, getState) => {
@@ -83,7 +91,6 @@ export function updateTrip(tripKey, changes) {
       });
   };
 }
-
 
 export function registerListeners() {
   return (dispatch, getState) => {
@@ -106,7 +113,6 @@ export function registerListeners() {
     }));
   };
 }
-
 
 function recordFromSnapshot(snapshot) {
   let record = snapshot.val();

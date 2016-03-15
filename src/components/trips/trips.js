@@ -9,7 +9,6 @@ import { tripsActions } from 'modules/trips';
 // Components
 import { Notification } from './notification';
 import { TaskFilters } from './task-filters';
-import { TaskForm } from './task-form';
 import { TripList } from './trip-list';
 
 
@@ -60,10 +59,6 @@ export class Trips extends Component {
 
     return (
       <div style={{paddingTop: '200px'}} className="g-row">
-        <div className="g-col">
-          <TaskForm createTrip={createTrip}/>
-        </div>
-
         <div className="g-col">
           <TaskFilters filter={filter}/>
           <TripList
