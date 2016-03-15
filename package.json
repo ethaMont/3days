@@ -8,6 +8,10 @@
     "name": "Johann Kerbrat",
     "email": "johann@kerbrat.eu"
   },
+  "engines": {
+    "node": "4.3.2",
+    "npm": "3.8.0"
+  },
   "private": true,
   "scripts": {
     "build": "webpack --config webpack.dist.js --progress",
