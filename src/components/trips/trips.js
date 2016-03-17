@@ -8,7 +8,7 @@ import { tripsActions } from 'modules/trips';
 
 // Components
 import { Notification } from './notification';
-import { TaskFilters } from './task-filters';
+import TripTabs from './trip-tabs';
 import { TripList } from './trip-list';
 
 
@@ -60,7 +60,7 @@ export class Trips extends Component {
     return (
       <div style={{paddingTop: '200px'}} className="g-row">
         <div className="g-col">
-          <TaskFilters filter={filter}/>
+          <TripTabs filter={filter}/>
           <TripList
             deleteTrip={deleteTrip}
             filter={filter}
